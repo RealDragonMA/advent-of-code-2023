@@ -6,15 +6,23 @@ def strength(game):
     bid = game[1]
     s = len(set(hand))
     d = {card: hand.count(card) for card in set(hand)}
-    return {
-        s == 5: (0, "High card", hand, bid),
-        s == 4: (1, "One pair", hand, bid),
-        s == 3 and max(d.values()) == 2: (2, "Two pair", hand, bid),
-        s == 3 and max(d.values()) == 3: (3, "Three of a kind", hand, bid),
-        s == 2 and max(d.values()) == 3: (4, "Full house", hand, bid),
-        s == 2 and max(d.values()) == 4: (5, "Four of a kind", hand, bid),
-        s == 1: (6, "Five of a kind", hand, bid)
-    }[True]
+    valueIndex = {
+        s == 5: 0,
+        s == 4: 1,
+        s == 3 and max(d.values()) == 2: 2,
+        s == 3 and max(d.values()) == 3: 3,
+        s == 2 and max(d.values()) == 3: 4,
+        s == 2 and max(d.values()) == 4: 5,
+        s == 1: 6
+    }
+    value = [(0, "High card", hand, bid), (1, "One pair", hand, bid), (2, "Two pair", hand, bid),
+             (3, "Three of a kind", hand, bid), (4, "Full house", hand, bid),
+             (5, "Four of a kind", hand, bid),
+             (6, "Five of a kind", hand, bid)
+             ]
+    i = int(valueIndex[True]) + hand.count("J")
+    return value[6] if i > 6 else value[i]
+
 
 def sort_power(card):
     strengths = 'J23456789TQKA'
