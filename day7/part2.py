@@ -4,24 +4,20 @@ from utils.fileUtils import getLines
 def strength(game):
     hand = game[0]
     bid = game[1]
-    s = len(set(hand))
+    lMax = max((c for c in set(hand) if c != 'J'), key=hand.count, default=None)
+    if lMax:
+        hand = hand.replace("J", lMax)
     d = {card: hand.count(card) for card in set(hand)}
-    valueIndex = {
-        s == 5: 0,
-        s == 4: 1,
-        s == 3 and max(d.values()) == 2: 2,
-        s == 3 and max(d.values()) == 3: 3,
-        s == 2 and max(d.values()) == 3: 4,
-        s == 2 and max(d.values()) == 4: 5,
-        s == 1: 6
-    }
-    value = [(0, "High card", hand, bid), (1, "One pair", hand, bid), (2, "Two pair", hand, bid),
-             (3, "Three of a kind", hand, bid), (4, "Full house", hand, bid),
-             (5, "Four of a kind", hand, bid),
-             (6, "Five of a kind", hand, bid)
-             ]
-    i = int(valueIndex[True]) + hand.count("J")
-    return value[6] if i > 6 else value[i]
+    s = len(set(hand))
+    return {
+        s == 5: (0, "High card", game[0], bid),
+        s == 4: (1, "One pair", game[0], bid),
+        s == 3 and max(d.values()) == 2: (2, "Two pair", game[0], bid),
+        s == 3 and max(d.values()) == 3: (3, "Three of a kind", game[0], bid),
+        s == 2 and max(d.values()) == 3: (4, "Full house", game[0], bid),
+        s == 2 and max(d.values()) == 4: (5, "Four of a kind", game[0], bid),
+        s == 1: (6, "Five of a kind", game[0], bid)
+    }[True]
 
 
 def sort_power(card):
