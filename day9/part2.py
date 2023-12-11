@@ -2,7 +2,7 @@ from utils.fileUtils import getLines
 
 
 def solve():
-    lines = [[int(x) for x in line.split(" ")] for line in getLines("input.txt")]
+    lines = [[int(x) for x in line.split(" ")][::-1] for line in getLines("input.txt")]
     s = 0
     for line in lines:
         sequence = [line]
