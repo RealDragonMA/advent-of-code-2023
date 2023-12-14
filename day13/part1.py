@@ -4,6 +4,11 @@ def rotate(line):
 
 def getReflection(pattern):
     ref = []
+    # 0 -> half
+    for i in range(0, (len(pattern) // 2)):
+        if pattern[:i+1] == pattern[i+1:2*(i+1)][::-1]:
+            ref.append(i+1)
+    # half -> end
     for i in range((len(pattern) // 2) + 1, len(pattern)):
         if pattern[i - (len(pattern) - i):i] == pattern[i:][::-1]:
             ref.append(i)
