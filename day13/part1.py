@@ -1,5 +1,5 @@
 def rotate(line):
-    return [list(row) for row in zip(*reversed(line))]
+    return [''.join(row) for row in zip(*reversed(line))]
 
 
 def getReflection(pattern):

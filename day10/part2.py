@@ -98,9 +98,10 @@ def getNext(coord, direction):
 
 def getStarting():
     for y in range(0, len(lines)):
-        for x in range(0, len(lines)):
+        for x in range(0, len(lines[y])):
             if getSymbol((x, y)) == 'S':
                 return x, y
+        print()
 
 
 def solve():
@@ -120,9 +121,28 @@ def solve():
                 break
             direction = possibles[0]
             currentCoord = getNext(currentCoord, direction)
-            moves.append(currentCoord)
-        roads.append(moves)
-    print(sum(len(r) for r in roads))
+            if not currentCoord in roads:
+                roads.append(currentCoord)
+    xs, ys = getStarting()
+    t = list(lines[ys])
+    t[xs] = "-"
+    lines[ys] = "".join(t)
+    total = 0
+    for y in range(len(lines)):
+        is_in = False
+        for x in range(len(lines[y])):
+            if (x, y) in roads:
+                if getSymbol((x, y)) in 'F7|S':
+                    is_in = not is_in
+                print(getSymbol((x, y)), end="")
+            else:
+                if is_in:
+                    print("O", end="")
+                    total += 1
+                else:
+                    print(".", end="")
+        print()
+    print(total)
 
 
 solve()
